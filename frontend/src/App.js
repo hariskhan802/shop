@@ -1,11 +1,15 @@
 import React from 'react'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import MasterLayout from './components/layouts/admin/MasterLayout';
 
 const App = () => {
     return (
-        <div>
-            hello world
-            <p>https://www.youtube.com/watch?v=GL48t3lY-tI&list=PLRheCL1cXHrtT6rOSlab8VzMKBlfL-IEA</p>
-        </div>
+        <Router>
+            <Switch>
+                <Route path="/admin/dashboard" name="Admin" render={(props) => <MasterLayout {...props} />} />
+                
+            </Switch>
+        </Router>
     )
 }
 
