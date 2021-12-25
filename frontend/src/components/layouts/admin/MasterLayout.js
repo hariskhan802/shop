@@ -6,6 +6,7 @@ import Footer from './Footer';
 import '../../../assets/admin/css/styles.css';
 import '../../../assets/admin/js/scripts';
 import routes from '../../../routes/routes';
+
 import {Switch, Route, Redirect} from 'react-router-dom';
 
 const MasterLayout = () => {
