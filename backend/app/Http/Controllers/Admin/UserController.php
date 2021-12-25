@@ -51,7 +51,7 @@ class UserController extends Controller
         // dd($user);
         if (\Hash::check($inputs['password'], $user->password)) {
             $user->token = $user->createToken('MyApp')->accessToken;
-            response()->json([
+            return response()->json([
                 'name' => $user->name,
                 'email' => $user->email,
                 'id' => $user->id_hash,
@@ -60,7 +60,6 @@ class UserController extends Controller
                 'message' => 'Login Successfully',
                 'status' => 200,
             ], 200);   
-            return $user;
         }
         else{
             return response()->json([

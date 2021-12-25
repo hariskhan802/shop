@@ -1,7 +1,30 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+
 const Navbar = () => {
+
+    const logout = () => {
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('auth_id');
+        localStorage.removeItem('auth_email');
+        localStorage.removeItem('auth_name');
+        localStorage.removeItem('auth_image');
+    }
+    var authButton = '';
+    if(!localStorage.getItem('auth_token'))
+    {
+        authButton = (<ul><li className="nav-item">
+                            <Link className="nav-link" to="/login">Login</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/register">Register</Link>
+                        </li></ul>);
+    }
+    else{
+        authButton = (<li><button className="btn btn-danger" type='button' onClick={logout}>Logout</button></li>);
+    }
+    
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow sticky-top">
             <div className='container'>
@@ -21,12 +44,8 @@ const Navbar = () => {
                         <li className="nav-item">
                             <Link className="nav-link" to="#">Collections</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/login">Login</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/register">Register</Link>
-                        </li>
+                       {authButton}
+                        
                     </ul>
                     
                     {/* <form className="form-inline my-2 my-lg-0">

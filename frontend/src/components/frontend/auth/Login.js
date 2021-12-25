@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Navbar from '../../layouts/frontend/Navbar';
 import swal from 'sweetalert';
+import {useHistory} from 'react-router-dom';
 
 const Login = () => {
-
+    const history = useHistory();
     const [loginInput, setLogin] = useState({
         email : '',
         password : '',
@@ -21,7 +22,7 @@ const Login = () => {
             email: loginInput.email,
             password: loginInput.password,
         }
-        axios.post('/api/login', loginInput).then(res => {
+        axios.post('/api/login', data).then(res => {
             if (res.data.status === 200) {
                 localStorage.setItem('auth_token', res.data.token);
                 localStorage.setItem('auth_id', res.data.id);
