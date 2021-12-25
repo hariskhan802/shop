@@ -19,6 +19,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $guarded = ['id'];
+    protected $append = ['id_hash'];
     // protected $fillable = [
     //     'name',
     //     'email',
@@ -33,6 +34,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'id',
     ];
 
     /**
@@ -43,4 +45,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getIdHashAttribute(){
+        return encrypt_decrypt('encrypt', $this->id);;
+    }
 }

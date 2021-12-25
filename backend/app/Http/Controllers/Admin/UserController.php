@@ -18,13 +18,20 @@ class UserController extends Controller
             
         ]);
         if ($validated->fails()) {
-            return $validated->errors();
+            return response()->json(['errors' => $validated->messages()]);
         }
         $inputs['password'] = bcrypt($inputs['password']);
         $user = \App\Models\User::create($inputs);
         $user->token = $user->createToken('MyApp')->accessToken;
-        // $user->createToken('MyApp')->accessToken;
-        return $user;
+        return response()->json([
+            'name' => $user->name,
+            'email' => $user->email,
+            'id' => $user->id_hash,
+            'image' => $user->image,
+            'token' => $user->token,
+            'message' => 'Register Successfully',
+            'status' => 200,
+        ], 200);
     }
     public function login(Request $request){
         $inputs = $request->all();
@@ -35,16 +42,31 @@ class UserController extends Controller
             
         ]);
         if ($validated->fails()) {
-            return $validated->errors();
+            
+            return response()->json([
+                'errors' => $validated->messages(),
+            ]);
         }
         $user = \App\Models\User::where('email', $inputs['email'])->first();
         // dd($user);
         if (\Hash::check($inputs['password'], $user->password)) {
-            $user->token = $user->createToken('MyApp')->accessToken;    
+            $user->token = $user->createToken('MyApp')->accessToken;
+            response()->json([
+                'name' => $user->name,
+                'email' => $user->email,
+                'id' => $user->id_hash,
+                'image' => $user->image,
+                'token' => $user->token,
+                'message' => 'Login Successfully',
+                'status' => 200,
+            ], 200);   
             return $user;
         }
         else{
-            return ['result' => 'Email or password is incorrect!'];
+            return response()->json([
+                'errors' => ['credentials' => 'Email or password is incorrect!'],
+                
+            ]);
         }
         // $user->createToken('MyApp')->accessToken;
     }
