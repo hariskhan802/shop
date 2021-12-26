@@ -69,4 +69,13 @@ class UserController extends Controller
         }
         // $user->createToken('MyApp')->accessToken;
     }
+    public function logout(){
+        if (\Auth::user()->token()->revoke()) {
+            return response()->json([
+                'status' => 200,
+                'message' => "Logged out successfully",
+            ]);
+        }
+        
+    }
 }

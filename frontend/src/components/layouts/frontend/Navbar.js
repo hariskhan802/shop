@@ -1,15 +1,28 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-
+import {Link, useHistory} from 'react-router-dom';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 const Navbar = () => {
-
+    const history = useHistory();
     const logout = () => {
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('auth_id');
-        localStorage.removeItem('auth_email');
-        localStorage.removeItem('auth_name');
-        localStorage.removeItem('auth_image');
+        
+        axios.get('/api/logout', {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('auth_token')
+            }
+        }).then(res => {
+            console.log(res);
+            if (res.data.status === 200) {
+                localStorage.removeItem('auth_token');
+                localStorage.removeItem('auth_id');
+                localStorage.removeItem('auth_email');
+                localStorage.removeItem('auth_name');
+                localStorage.removeItem('auth_image');
+                swal('Success', res.data.message, 'success');   
+                history.push('/login');
+            }
+        });
     }
     var authButton = '';
     if(!localStorage.getItem('auth_token'))
